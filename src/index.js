@@ -3,27 +3,33 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 
-class Square extends React.Component {
 
-  render() {
-    return (
-      <button 
-        className="square" 
-        onClick={() => this.props.onClick({value: 'X'})}
+function Square(props) {
+  return (
+    <button 
+        className="square"  // 이 버튼의 이름은 square 다.
+        onClick={props.onClick}  // 버튼이 클릭되면 부모 컴포넌트에서 넘어온 프로퍼티 onClick() 을 동작한다
       >
-        {this.props.value}
-      </button>
-    );
-  }
+        {props.value}
+      </button> // 부모 컴포넌트에서 넘어온 value 프로퍼티
+  )
 }
+
 
 class Board extends React.Component {
 
+  // 생성자를 써서 변수를 만들어야 되는 이유는 뭐지?
   constructor(props) {
     super(props);
     this.state = {
       squares: Array(9).fill(null),
     }
+  }
+
+  handleClick(i) {
+    const squares = this.state.squares.slice(); // 왜 slice() 함수를 쓰는 건가? 안써도 오류는 없는데. -> 사본을 만들어 불변성을 
+    squares[i] = 'X';
+    this.setState({squares: squares});
   }
 
   renderSquare(i) {
