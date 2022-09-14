@@ -5,28 +5,34 @@ import './index.css';
 
 class Square extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
-
   render() {
     return (
       <button 
         className="square" 
-        onClick={() => this.setState({value: 'X'})}
+        onClick={() => this.props.onClick({value: 'X'})}
       >
-        {this.state.value}
+        {this.props.value}
       </button>
     );
   }
 }
 
 class Board extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    }
+  }
+
   renderSquare(i) {
-    return <Square value={i} />;
+    return (
+      <Square 
+        value={this.state.squares[i]}   // 초기값이 null로 채워진 squares 배열 
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
